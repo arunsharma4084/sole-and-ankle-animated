@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, {keyframes} from 'styled-components/macro';
 import { DialogOverlay, DialogContent } from '@reach/dialog';
 
 import { QUERIES, WEIGHTS } from '../../constants';
@@ -36,15 +36,47 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   );
 };
 
+const backdrop = keyframes`
+  from{
+    background-color: white;
+  }
+
+  to{
+    background-color: var(--color-backdrop);
+  }
+`;
+
+const content = keyframes`
+  from{
+    transform: translateX(100%);
+  }
+
+  to{
+    transform: translateX(0%);
+  }
+`;
+
+const drawer = keyframes`
+  from{
+    opacity: 0;
+  }
+
+  to{
+    opacity: 1;
+  }
+`;
+
 const Overlay = styled(DialogOverlay)`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--color-backdrop);
   display: flex;
   justify-content: flex-end;
+ 
+  animation: ${backdrop} 500ms forwards;
+
 `;
 
 const Content = styled(DialogContent)`
@@ -54,6 +86,9 @@ const Content = styled(DialogContent)`
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
+  animation: ${content} 250ms both cubic-bezier(.44,.63,.72,1.10);
+  animation-delay: 200ms;
+  
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -67,6 +102,8 @@ const Nav = styled.nav`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  animation: ${drawer} 250ms;
+  animation-delay: 200ms;
 `;
 
 const NavLink = styled.a`
@@ -75,6 +112,7 @@ const NavLink = styled.a`
   text-decoration: none;
   font-size: 1.125rem;
   text-transform: uppercase;
+
 
   &:first-of-type {
     color: var(--color-secondary);

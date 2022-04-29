@@ -35,7 +35,9 @@ const ShoeCard = ({
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
+          <AnimationWrapper>
           <Image alt="" src={imageSrc} />
+          </AnimationWrapper>
           {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
           {variant === 'new-release' && (
             <NewFlag>Just released!</NewFlag>
@@ -73,15 +75,41 @@ const Link = styled.a`
   color: inherit;
 `;
 
-const Wrapper = styled.article``;
+const Wrapper = styled.article`
+
+  /*@media (prefers-reduced-motion: no-preference){
+    ${/Link}:hover &, ${/*Link}:focus & {
+      transform: rotate3d(1, 1, 1, 360deg);
+      transition: transform 200ms linear;
+    }
+  }*/
+`;
 
 const ImageWrapper = styled.div`
-  position: relative;
+  position: relative;  
 `;
+
+const AnimationWrapper = styled.div`
+  overflow: hidden;
+  border-radius: 16px 16px 4px 4px;
+`;
+
+
 
 const Image = styled.img`
   width: 100%;
-  border-radius: 16px 16px 4px 4px;
+  display: block;
+  transition: transform 600ms;
+  transform-origin: 50% 75%;
+  will-change: transform;
+
+  @media (prefers-reduced-motion: no-preference){
+    ${Link}:hover &, ${Link}:focus & {
+      transform: scale(1.1);
+      transition: transform 200ms;
+      filter: contrast(125%);
+    }
+  }
 `;
 
 const Row = styled.div`
@@ -121,6 +149,15 @@ const Flag = styled.div`
   font-weight: ${WEIGHTS.bold};
   color: var(--color-white);
   border-radius: 2px;
+  will-change: transform;
+  transition: filter 600ms;
+
+  @media (prefers-reduced-motion: no-preference){
+    ${Link}:hover &, ${Link}:focus & {
+      filter: contrast(150%);
+      transition: filter 200ms;
+    }
+  }
 `;
 
 const SaleFlag = styled(Flag)`
